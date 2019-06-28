@@ -1,10 +1,3 @@
-Hello, World
+# Awesome Documentation
 
-The language is {{ page.language }}
-
-{% if page.language == 'python' %}
-PYTHON
-{% endif %}
-{% if page.language == 'c#' %}
-C#
-{% endif %}
+{{content}}
