@@ -1,7 +1,3 @@
----
-layout: default
----
-
 Here's a code sample
 
 <code-samples>
