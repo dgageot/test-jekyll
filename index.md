@@ -1,30 +1,20 @@
+---
+layout: default
+---
+
+{::options parse_block_html="true" /}
+
 # Awesome Documentation
 
 Here's a code sample
 
-<code-samples>
+<div id="samples" class="samples">
+<div language="java">
 
-{% highlight python %}
-print("Hello World")
-{% endhighlight %}
+## Ceci est un joli bout de code Java
 
-{% highlight java %}
-class HelloWorld {
-  static public void main( String args[] ) {
-    System.out.println( "Hello World!" );
-  }
-}
-{% endhighlight %}
-
-</code-samples>
-
-Here's another one
-
-<code-samples>
-
-{% highlight python %}
-print("Hello World")
-{% endhighlight %}
+ + avec tout pleins de choix
+ + et d'autres encore
 
 {% highlight java %}
 class HelloWorld {
@@ -34,4 +24,25 @@ class HelloWorld {
 }
 {% endhighlight %}
 
-</code-samples>
+**Et le meme code**
+
+{% highlight java %}
+class HelloWorld {
+  static public void main( String args[] ) {
+    System.out.println( "Hello World!" );
+  }
+}
+{% endhighlight %}
+
+</div>
+
+<div language="python">
+
+## Ceci est un bout de code Python long et verbeux
+
+{% highlight python %}
+print("Hello World")
+{% endhighlight %}
+
+</div>
+</div>

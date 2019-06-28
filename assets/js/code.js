@@ -30,7 +30,7 @@ class CodeSamples extends BaseHTMLElement {
             padding-bottom: 10px;
         }
 
-        ::slotted(figure.highlight) {
+        ::slotted(*) {
             display: none;
         }
 
@@ -38,7 +38,7 @@ class CodeSamples extends BaseHTMLElement {
             display: block !important;
         }
 
-        ul.links {
+        #links {
             display: inline-block;
             padding: 0;
             margin: 0;
@@ -47,7 +47,7 @@ class CodeSamples extends BaseHTMLElement {
             height: 48px;
         }
 
-        ul.links li {
+        #links li {
             display: inline-block;
             padding: 0 15px;
             margin: 0;
@@ -55,39 +55,37 @@ class CodeSamples extends BaseHTMLElement {
             line-height: 48px;
         }
 
-        ul.links li a {
+        #links li a {
             text-decoration: none;
             text-transform: uppercase;
             font-family: helvetica;
             color: #757575;
         }
 
-        ul.links li.active {
+        #links li.active {
             border-bottom: 1px solid #1a73e8;
         }
 
-        ul.links li.active a {
+        #links li.active a {
             color: #1a73e8;
         }
             `;
     }
 
     render() {
-        return `<slot></slot>`;
+        return `<ul id="links"></ul><slot></slot>`;
     }
 
     showSnippets(language) {
         for (var snippet of this.$('slot').assignedElements()) {
-            if (snippet.querySelector('code').attributes['data-lang'].value == language) {
+            if (snippet.attributes['language'].value == language) {
                 snippet.classList.add('visible');
             } else {
                 snippet.classList.remove('visible');
             }
         }
 
-        console.log(this.$$('ul'));
-
-        this.$$('ul.links li').forEach((a) => {
+        this.$$('#links li').forEach((a) => {
             if (a.id == 'switch-'+language) {
                 a.classList.add('active');
             } else {
@@ -104,20 +102,13 @@ class CodeSamples extends BaseHTMLElement {
         });
 
         this.$('slot').addEventListener('slotchange', (e) => {
-            let languages = [];
-            let snippets = {};
-            for (var snippet of e.target.assignedElements()) {
-                let code = snippet.querySelector('code');
-                let language = code.attributes['data-lang'].value;
-                
-                languages.push(language);
-                snippets[language] = snippet;
-            }
+            let languages = e.target.assignedElements().map((child) => child.attributes['language'].value);
 
-            // Create links
-            let links = document.createElement('ul');
-            links.classList.add('links');
-            for (var language of languages.reverse()) {
+            let links = this.$('#links');
+            while (links.firstChild) {
+                links.removeChild(links.firstChild);
+            }
+            for (var language of languages) {
                 let l = language;
 
                 let link = document.createElement('li');
@@ -132,13 +123,24 @@ class CodeSamples extends BaseHTMLElement {
                     }));
                 })
 
-                links.append(link);
+            links.append(link);
             }
 
-            this.shadowRoot.prepend(links);
-            this.showSnippets(languages[0]);
+            if (languages.length > 0) {
+                this.showSnippets(languages[0]);
+            }
         });
     }
 }
 
 customElements.define('code-samples', CodeSamples);
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.samples').forEach((el) => {
+        var newEl = document.createElement('code-samples');
+        newEl.innerHTML = el.innerHTML;
+        el.parentNode.replaceChild(newEl, el);
+    });
+});
+
+
