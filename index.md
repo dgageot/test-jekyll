@@ -2,13 +2,14 @@
 layout: default
 ---
 
-{::options parse_block_html="true" /}
+{::options parse_block_html="true" parse_span_html="true" /}
 
 # Awesome Documentation
 
 Here's a code sample
 
-<div id="samples" class="samples">
+<div class="samples">
+
 <div language="java">
 
 ## Ceci est un joli bout de code Java
@@ -16,23 +17,52 @@ Here's a code sample
  + avec tout pleins de choix
  + et d'autres encore
 
-{% highlight java %}
+    {:path="src/main/java/Main/java"}
+    ```java
+    class HelloWorld {
+        static public void main( String args[] ) {
+            System.out.println( "Hello World!" );
+        }
+    }
+    ```
+
+**Et le meme code sans l'identation**
+
+{:path="src/main/java/Main/java"}
+```java
 class HelloWorld {
   static public void main( String args[] ) {
     System.out.println( "Hello World!" );
   }
 }
-{% endhighlight %}
+```
+</div>
 
-**Et le meme code**
+<div language="python">
 
-{% highlight java %}
+## Ceci est un bout de code Python long et verbeux
+
+{:path="hello.py"}
+```python
+print("Hello World")
+```
+
+</div>
+</div>
+
+<div class="samples">
+<div language="java">
+
+## Ceci est un joli bout de code Java
+
+{:path="src/main/java/Main/java"}
+```java
 class HelloWorld {
-  static public void main( String args[] ) {
-    System.out.println( "Hello World!" );
-  }
+    static public void main( String args[] ) {
+        System.out.println( "Hello World!" );
+    }
 }
-{% endhighlight %}
+```
 
 </div>
 
@@ -40,9 +70,11 @@ class HelloWorld {
 
 ## Ceci est un bout de code Python long et verbeux
 
-{% highlight python %}
+{:path="hello.py"}
+```python
 print("Hello World")
-{% endhighlight %}
+```
 
 </div>
 </div>
+

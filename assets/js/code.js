@@ -27,7 +27,12 @@ class CodeSamples extends BaseHTMLElement {
         :host {
             display: block !important;
             outline: 1px solid #ebebeb;
-            padding-bottom: 10px;
+            padding-bottom: 0;
+            width: 100%;
+        }
+
+        #main {
+            padding: 0 10px 10px 10px;
         }
 
         ::slotted(*) {
@@ -73,7 +78,7 @@ class CodeSamples extends BaseHTMLElement {
     }
 
     render() {
-        return `<ul id="links"></ul><slot></slot>`;
+        return `<ul id="links"></ul><div id="main"><slot></slot></div>`;
     }
 
     showSnippets(language) {
@@ -135,11 +140,38 @@ class CodeSamples extends BaseHTMLElement {
 
 customElements.define('code-samples', CodeSamples);
 
+class SnippetPath extends BaseHTMLElement {
+    static get styles() {
+        return `
+        :host {
+            background-color: #4285f4;
+            width: calc(100% - 8px);
+            display: block;
+            color: white;
+            padding: 7px;
+            font-size: 0.9em;
+        }`;
+    }
+
+    render() {
+        return `${this.attributes['path'].value}`;
+    }
+}
+
+
+customElements.define('snippet-path', SnippetPath);
+
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.samples').forEach((el) => {
         var newEl = document.createElement('code-samples');
         newEl.innerHTML = el.innerHTML;
         el.parentNode.replaceChild(newEl, el);
+    });
+    document.querySelectorAll('.highlighter-rouge[path]:not([value=""])').forEach((el) => {
+        let snippetPath = document.createElement('snippet-path');
+        snippetPath.setAttribute('path', el.attributes['path'].value);
+        el.prepend(snippetPath);
     });
 });
 
