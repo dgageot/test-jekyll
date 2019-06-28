@@ -1,3 +1,0 @@
-# Awesome Documentation
-
-{{content}}
